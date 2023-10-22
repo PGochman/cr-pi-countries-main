@@ -7,15 +7,11 @@ const getAllCountriesController = async (countriesArray) => {
         const flag = country.flags.png
         const continent = country.region
         const capital = country.capital ? country.capital[0] : "does not have a capital"
-        const subregion = country?.subregion
-        const area = country?.area
+        const subregion = country.subregion || null
+        const area = country.area || null
         const population = country.population
         
-        try {
-            await Country.findOrCreate({where: {id, name, flag, continent, capital, subregion, area, population}})
-        } catch(error){
-            throw Error(error.message)
-        }
+        await Country.findOrCreate({where: {id, name, flag, continent, capital, subregion, area, population}})
         
     })
 
@@ -24,16 +20,16 @@ const getAllCountriesController = async (countriesArray) => {
     return allCountries
 }
 
-const getCountryByIdController = (id) => {
+const findCountry = async (parameter) => {
+    let foundCountry = await Country.findByPk(parameter)
+    if(foundCountry == null){
+        foundCountry = await Country.findOne({where: {name: parameter}})
+    }
 
-}
-
-const getCountryByNameController = (name) => {
-    
+    return foundCountry
 }
 
 module.exports = {
     getAllCountriesController,
-    getCountryByIdController,
-    getCountryByNameController
+    findCountry
 }
