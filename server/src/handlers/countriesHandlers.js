@@ -1,17 +1,15 @@
 const axios = require("axios")
 const {getAllCountriesController, findCountry} = require("../controllers/countriesControllers")
 
-const URL = "http://localhost:5000/countries"
+
 
 const getAllCountries = async (req, res) => {
     try{
-        const data = (await axios(URL)).data
-        const allCountries = await getAllCountriesController(data)
+        const allCountries = await getAllCountriesController()
         return res.status(200).json(allCountries)
     } catch(error) {
         return res.status(500).json({error: error.message})
     }
-    
 }
 
 const getCountryById = async (req, res) => {
