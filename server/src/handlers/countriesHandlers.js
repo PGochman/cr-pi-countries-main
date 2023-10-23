@@ -1,5 +1,5 @@
 const axios = require("axios")
-const {getAllCountriesController, getCountryByIdController, getCountryByNameController, findCountry} = require("../controllers/countriesControllers")
+const {getAllCountriesController, findCountry} = require("../controllers/countriesControllers")
 
 const URL = "http://localhost:5000/countries"
 
@@ -27,14 +27,17 @@ const getCountryById = async (req, res) => {
 }
 
 const getCountryByName = async (req, res) => {   
-    const queryName = req.query.name
-    const name = queryName.at(0).toUpperCase() + queryName.slice(1).toLowerCase()
-    console.log(name)
+    const name = req.query.name.toLowerCase()
 
     try {
-        const foundCountry = await(findCountry(name))
+        const foundCountry = await findCountry(name)
 
-        res.status(200).json(foundCountry)
+        if(foundCountry == null){
+            console.log("dejisaonC")
+            return res.status(200).json("Country not found, please try again")
+        }
+
+        return res.status(200).json(foundCountry)
     } catch (error){
         res.status(500).json({error: error.message})
     }
