@@ -2,7 +2,7 @@ const axios = require("axios");
 const server = require("./src/server");
 const { conn } = require('./src/db.js');
 const PORT = 3001;
-const {createDatabase} = require("./src/generalFunctions/createDatabase")
+const {createDatabase} = require("./src/utils/createDatabase")
 
 conn.sync({ force: true }).then(() => {
   createDatabase()

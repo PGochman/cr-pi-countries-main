@@ -1,5 +1,5 @@
 const axios = require("axios")
-const {getAllCountriesController, findCountry} = require("../controllers/countriesControllers")
+const {getAllCountriesController, findCountry, getAllContinents} = require("../controllers/countriesControllers")
 
 
 
@@ -25,13 +25,12 @@ const getCountryById = async (req, res) => {
 }
 
 const getCountryByName = async (req, res) => {   
-    const name = req.query.name.toLowerCase()
+    const {name} = req.query
 
     try {
         const foundCountry = await findCountry(name)
 
         if(foundCountry == null){
-            console.log("dejisaonC")
             return res.status(200).json("Country not found, please try again")
         }
 
@@ -41,8 +40,18 @@ const getCountryByName = async (req, res) => {
     }
 }
 
+const getContinents = async (req, res) => {
+    try {
+        const continents = await getAllContinents()
+        res.status(200).json(continents)
+    } catch (error){
+        res.status(500).json({error: error.message})
+    }
+}
+
 module.exports = {
     getAllCountries,
     getCountryById,
-    getCountryByName
+    getCountryByName,
+    getContinents
 }
