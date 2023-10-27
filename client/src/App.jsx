@@ -2,14 +2,17 @@ import { useDispatch } from "react-redux"
 import { useEffect } from "react"
 import { getAllCountries, getData } from "./redux/actions/actions"
 import './App.css'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useLocation } from 'react-router-dom'
 import Landing from './pages/landing/landing'
 import Home from "./pages/home/Home"
-
+import Detail from "./pages/detail/Detail"
+import Nav from "./components/nav/Nav"
+import CreateActivity from "./pages/createActivity/CreateActivity"
 
 function App() {
 
   const dispatch = useDispatch()
+  const {pathname} = useLocation()
 
   useEffect(() => {
       dispatch(getAllCountries())
@@ -19,9 +22,12 @@ function App() {
 
   return (
     <div>
+      {pathname !== "/" && <Nav/>}
       <Routes>
         <Route path="/" element={<Landing/>}/>
         <Route path="home" element={<Home/>}/>
+        <Route path="countries/:id" element={<Detail/>}/>
+        <Route path="create" element={<CreateActivity/>}/>
       </Routes>
     </div>
   )

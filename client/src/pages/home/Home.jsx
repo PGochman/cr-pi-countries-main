@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux"
 import Cards from "../../components/cards/Cards"
 import Select from "../../components/select/Select"
 import { useEffect, useState } from "react"
-import { orderCountries, filterCountries } from "../../redux/actions/actions"
+import { orderCountries, filterCountries, getData, setFilters, setCurrentActivity, setOrder } from "../../redux/actions/actions"
 import FunctionButton from "../../components/buttons/FunctionButton"
 
 const Home = () => {
@@ -12,63 +12,77 @@ const Home = () => {
     const [subContinents, setSubContinents] = useState({})
     const [showSubContinents, setShowSubContinents] = useState(false)
     const dispatch = useDispatch()
-    const [order, setOrder] = useState({})
-    const [filters, setFilters] = useState({})
-    const {activities, continents} = useSelector((state) => state)
+    const {activities, continents, filters, currentActivity, order} = useSelector((state) => state)
+
+    useEffect(() => {
+        dispatch(getData())
+        dispatch(filterCountries())
+    }, [])
 
     useEffect(() => {
         const obj = {}
+        const allActivities = []
         activities.map((activity) => {
-            setAllActivitiesNames((allNames) => [...allNames, activity.name])
+            allActivities.push(activity.name)
             obj[activity.name] = activity.countries
         })
+        setAllActivitiesNames(allActivities)
         setActivityCountries(obj)
-    }, [])
+    }, [activities])
 
     useEffect(() => {
         dispatch(orderCountries(order))
     }, [order])
 
     useEffect(() => {
-        dispatch(filterCountries(filters))
+        dispatch(filterCountries())
     }, [filters])
 
-    const handleContinentChange = (event) => {
-        if(continents[event.target.value] && continents[event.target.value][0]){
+    useEffect(() => {
+        if((continents[filters.continent] && continents[filters.continent][0])){
             setShowSubContinents(true)
-            setSubContinents(continents[event.target.value])
+            setSubContinents(continents[filters.continent])
         } else {
             setShowSubContinents(false)
         }
-        setFilters({...filters, continent: event.target.value, subregion: null})
+    }, [filters.continent])
+
+    const handleContinentChange = (event) => {
+        dispatch(setFilters({...filters, continent: event.target.value, subregion: null}))
     }   
 
     const handleOrder = (event) => {
-        setOrder({ascendant: true, parameter: event.target.value})
+        dispatch(setOrder({ascendant: true, parameter: event.target.value}))
     }
 
     const changeOrder = () => {
-        setOrder({...order, ascendant: !order.ascendant})
+        dispatch(setOrder({...order, ascendant: !order.ascendant}))
     }
 
     const handleActivityChange = (event) => {
-        setFilters({...filters, id: activityCountries[event.target.value]})
+        dispatch(setCurrentActivity(event.target.value))
+        dispatch(setFilters({...filters, id: activityCountries[event.target.value]}))
     }
 
     const handleSubContinent = (event) => {
-        setFilters({...filters, subregion: event.target.value})
+        dispatch(setFilters({...filters, subregion: event.target.value}))
     }
 
+    const eraseFilters = () => {
+        dispatch(setCurrentActivity(""))
+        dispatch(setFilters({}))
+    }
     
     return (
       <div>
         <SearchBar filters={filters}/>
-        <Select name="activity" onChange={handleActivityChange} options={allActivitiesNames}/>
-        <Select name="continent" options={Object.keys(continents)} onChange={handleContinentChange}/>
-        {showSubContinents && <Select name="SubContinents" options={subContinents} onChange={handleSubContinent}/>}
-        <Select name="order" options={["name", "population"]} first={"Parameter"} onChange={handleOrder} />
+        <Select selected={currentActivity} name="activity" onChange={handleActivityChange} options={allActivitiesNames}/>
+        <Select selected={filters.continent} name="continent" options={Object.keys(continents)} onChange={handleContinentChange}/>
+        {showSubContinents && <Select selected={filters.subContinents} name="SubContinents" options={subContinents} onChange={handleSubContinent}/>}
+        <FunctionButton onClick={eraseFilters} name="Erase filters"/>
+        <Select name="order" selected={order.parameter} options={["name", "population"]} first={"Parameter"} onChange={handleOrder} />
         {order.parameter && <FunctionButton name="change order" onClick={changeOrder}></FunctionButton>}
-        <Cards order={order}/>
+        <Cards order={order} filters={filters}/>
       </div>
     );
 }

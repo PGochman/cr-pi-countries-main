@@ -1,0 +1,118 @@
+import { useEffect, useState } from "react"
+import { useSelector, useDispatch } from "react-redux"
+import FunctionButton from "../buttons/FunctionButton"
+import { addActivity, getData } from "../../redux/actions/actions"
+import Select from "../select/Select"
+import validation from "./validation"
+
+const seasons = ["Summer", "Winter", "Fall", "Spring"]
+const difficulties = [
+    {number: 1, words: "Very easy"},
+    {number: 2, words: "Easy"},
+    {number: 3, words: "Medium"},
+    {number: 4, words: "Hard"},
+    {number: 5, words: "Very hard"}
+]
+
+const ActivityForm = () => {
+
+    const [activity, setActivity] = useState({name: "", difficulty: "", duration: "", season: ""})
+    const dispatch = useDispatch()
+
+    const allCountries = useSelector((state) => state.allCountries)
+    const [selectedCountries, setSelectedCountries] = useState([])
+    const [country, setCountry] = useState({name: "", id: ""})
+    const [allowed, setAllowed] = useState(true)
+    const [errors, setErrors] = useState({})
+
+    useEffect(() => {
+        setActivity({
+            ...activity,
+            countries: selectedCountries
+        })
+    }, [selectedCountries])
+
+    useEffect(() => {
+        setErrors(validation(activity))
+    }, [activity])
+
+    const handleInput = (event) => {
+        setActivity({
+            ...activity,
+            [event.target.name]: event.target.value
+        })
+    }
+
+    const addCountries = (event) => {
+        event.preventDefault()
+        setSelectedCountries((countries) => [...countries, country.id])
+        setCountry({name: "", id: ""})
+        setAllowed(true)
+    }
+
+    const handleCountry = (event) => {
+        setCountry({name: event.target.value})
+        const countryId = allCountries.find((country) => country.name == event.target.value)
+        if (countryId){
+            setCountry({name: countryId.name, id: countryId.id})
+            setAllowed(false)
+        } else {
+            setAllowed(true)
+        }
+    }
+
+    const handleSubmit = (event) => {
+        event.preventDefault()
+        dispatch(addActivity(activity))
+        setSelectedCountries([])
+        setActivity({name: "", difficulty: "", duration: "", season: ""})
+    }
+
+    return (
+        <form onSubmit={handleSubmit}>
+            <label htmlFor="name">Activity name:</label>
+            <input name="name" type="text" value={activity.name} onChange={handleInput}></input>
+            {errors.name && <p>{errors.name}</p>}
+
+            <hr style={{ borderStyle: "none"}} />
+
+            {difficulties.map((difficulty) => {
+                return(
+                    <div>
+                        <label key={difficulty.words} htmlFor="difficulty">{difficulty.words}</label>
+                        <input key={difficulty.number /2 * 2} type="radio" name="difficulty" value={difficulty.number} onChange={handleInput}></input>
+                    </div>
+                )
+            })}
+            {errors.difficulty && <p>{errors.difficulty}</p>}
+
+            <hr style={{ borderStyle: "none"}} />
+
+            <label htmlFor="duration">Duration(hours)</label>
+            <input name="duration" type="number" value={activity.duration} onChange={handleInput} step={0.5} min={0.5} ></input>
+
+            <hr style={{ borderStyle: "none"}} />
+
+            <Select name="season" options={seasons} first="Choose a season" onChange={handleInput}/>
+            {errors.season && <p>{errors.season}</p>}
+
+            <hr style={{ borderStyle: "none"}} />
+
+            <label htmlFor="countries">Countries (select one from the list): </label>
+            <input name="countries" type="text" list="countries" value={country.name} onChange={handleCountry}></input>
+            <datalist id="countries">
+                {allCountries.filter((country) => !selectedCountries.includes(country.id)).map((country) => {
+                    return <option key={country.id} value={country.name}></option>
+                })}
+            </datalist>
+            <FunctionButton disabled={allowed} onClick={addCountries} name="Add"/>
+            {errors.countries && <p>{errors.countries}</p>}
+
+            <hr style={{ borderStyle: "none"}} />
+
+            <button type="submit" disabled={errors.name || errors.difficulty || errors.season || errors.countries}>Create activity!</button>
+        </form>
+    )
+}
+
+export default ActivityForm

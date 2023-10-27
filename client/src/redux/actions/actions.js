@@ -1,4 +1,4 @@
-import { FILTER_BY_NAMES, GET_ALL_COUNTRIES, ORDER_COUNTRIES, GET_DATA, FILTER} from "./action-types"
+import { FILTER_BY_NAMES, GET_ALL_COUNTRIES, ORDER_COUNTRIES, GET_DATA, FILTER, GET_DETAIL, ADD_ACTIVITY, SET_FILTERS, SET_CURRENT_ACTIVITY, SET_ORDER} from "./action-types"
 import axios from "axios"
 const URL_BASE = "http://localhost:3001"
 
@@ -54,4 +54,46 @@ export const orderCountries = (parameter) => {
 
 export const filterCountries = (filters) => {
     return {type: FILTER, payload: filters}
+}
+
+export const getDetail = (id) => {
+    return async(dispatch) => {
+        try {
+            const data = (await axios(`${URL_BASE}/countries/${id}`)).data
+
+            return dispatch({
+                type: GET_DETAIL,
+                payload: data
+            })
+        } catch (error) {
+            throw Error(error.message)
+        }
+    }
+}
+
+export const addActivity = (activity) => {
+    return async(dispatch) => {
+        try{
+            const data = (await axios.post(`${URL_BASE}/activities`, activity)).data
+
+            return dispatch({
+                type: ADD_ACTIVITY,
+                payload: data
+            })
+        } catch(error) {
+            throw Error(error.message)
+        }
+    }
+}
+
+export const setFilters = (filters) => {
+    return {type: SET_FILTERS, payload: filters}
+}
+
+export const setCurrentActivity = (activity) => {
+    return {type: SET_CURRENT_ACTIVITY, payload: activity}
+}
+
+export const setOrder = (order) => {
+    return {type: SET_ORDER, payload: order}
 }

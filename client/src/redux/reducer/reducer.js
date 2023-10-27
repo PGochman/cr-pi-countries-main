@@ -1,12 +1,15 @@
-import {FILTER_BY_NAMES, GET_ALL_COUNTRIES, ORDER_COUNTRIES, GET_DATA, FILTER} from "../actions/action-types"
+import {FILTER_BY_NAMES, GET_ALL_COUNTRIES, ORDER_COUNTRIES, GET_DATA, FILTER, GET_DETAIL, ADD_ACTIVITY, SET_FILTERS, SET_CURRENT_ACTIVITY, SET_ORDER} from "../actions/action-types"
 import { orderSelectedCountries, filterCountries} from "../utils/utils"
 
 const initialState = {
-    selectedCountries: [],
     allCountries: [],
+    filteredCountries: [],
     activities: [],
     continents: {},
-    filteredCountries: []
+    countryDetail: {},
+    filters: {},
+    currentActivity: "",
+    order: {}
 }
 
 const reducer = (state = initialState, action) => {
@@ -28,7 +31,7 @@ const reducer = (state = initialState, action) => {
             const orderedCountries = orderSelectedCountries(state, action.payload)
             return {
                 ...state,
-                selectedCountries: orderedCountries,
+                filteredCountries: orderedCountries,
             }
         case GET_DATA: 
             return {
@@ -37,10 +40,35 @@ const reducer = (state = initialState, action) => {
                 activities: action.payload.activities
             }
         case FILTER:
-            const filteredCountries = filterCountries(state.allCountries, action.payload)
+            const filteredCountries = filterCountries(state.allCountries, state.filters)
             return {
                 ...state,
                 filteredCountries: filteredCountries
+            }
+        case GET_DETAIL:
+            return {
+                ...state,
+                countryDetail: action.payload
+            }
+        case ADD_ACTIVITY: 
+            return {
+                ...state,
+                activities: [...state.activities, action.payload]
+            }
+        case SET_FILTERS:
+            return {
+                ...state,
+                filters: action.payload
+            }
+        case SET_CURRENT_ACTIVITY:
+            return {
+                ...state,
+                currentActivity: action.payload
+            }
+        case SET_ORDER:
+            return {
+                ...state,
+                order: action.payload
             }
         default:
             return {...state}

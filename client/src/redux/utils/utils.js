@@ -1,6 +1,6 @@
 export const orderSelectedCountries = (state, payload) => {
     const parameter = payload.parameter
-    if(parameter == "All"){
+    if(!parameter || parameter == "All"){
         return state.filteredCountries
     }
     if(!Array.isArray(state.filteredCountries)){
@@ -8,31 +8,34 @@ export const orderSelectedCountries = (state, payload) => {
     }
     const orderedCountries = payload.ascendant ?
     state.filteredCountries.sort((a, b) => {
-        if(a[parameter] > b[parameter]){
-            return 1
+        if(typeof(a[parameter])  == "string"){
+            return a[parameter].localeCompare(b[parameter])
         }
-        return -1
+        return a[parameter] - b[parameter]
     }) : 
     state.filteredCountries.sort((a, b) => {
-        if(a[parameter] < b[parameter]){
-            return 1
+        if(typeof(a[parameter])  == "string"){
+            return b[parameter].localeCompare(a[parameter])
         }
-        return -1
+        return b[parameter] - a[parameter]
     })
     return orderedCountries
 }
 
-export const filterCountries = (countries, payload) => {
+export const filterCountries = (countries, filters) => {
     let filteredCountries = countries
     if(!Array.isArray(filteredCountries)) return filteredCountries
-    for (let filter in payload) {
-        if(payload[filter] == "All" || !payload[filter]) continue
+    for (let filter in filters) {
+        if(filters[filter] == "All" || !filters[filter]) continue
         filteredCountries = filteredCountries.filter((country) => {
-            if(Array.isArray(payload[filter])){
-                return payload[filter].includes(country[filter])
+            if(Array.isArray(filters[filter])){
+                return filters[filter].includes(country[filter])
             }
-            return country[filter] == payload[filter]
+            return country[filter] == filters[filter]
         })
+    }
+    if(filteredCountries.length == 0){
+        return "Country not found, please try again"
     }
     return filteredCountries
 }
