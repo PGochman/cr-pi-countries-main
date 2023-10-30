@@ -5,7 +5,7 @@ const {insertCountries} = require("../utils/insertCountries")
 const createActivity = async (name, difficulty, duration, season, countries) => {
     const [activity, created] = await Activity.findOrCreate({where: {name}, defaults: {difficulty, duration, season}})
  
-    if(!created) return "Activity already exists"
+    if(!created) throw Error("Activity already exists, try with a new one")
 
     countries.map(async (country) => {
        await activity.addCountry(country)

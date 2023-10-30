@@ -8,7 +8,7 @@ const postActivity = async (req, res) => {
 
         return res.status(200).send(response)
     } catch (error){
-        return res.status(500).json({error: error.message})
+        return res.status(500).json({message: error.message})
     }
 }
 
@@ -18,7 +18,7 @@ const getActivity = async (req, res) => {
 
         return res.status(200).json(allActivities)
     } catch(error) {
-        return res.status(500).json({error: error.message})
+        return res.status(500).send(error.message)
     }
 }
 
