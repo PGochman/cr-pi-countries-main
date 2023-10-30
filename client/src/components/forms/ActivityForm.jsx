@@ -24,6 +24,7 @@ const ActivityForm = () => {
     const [country, setCountry] = useState({name: "", id: ""})
     const [allowed, setAllowed] = useState(true)
     const [errors, setErrors] = useState({})
+    const [createError, setCreateError] = useState("")
 
     useEffect(() => {
         setActivity({
@@ -42,6 +43,13 @@ const ActivityForm = () => {
             [event.target.name]: event.target.value
         })
     }
+
+    useEffect(() => {
+        if(typeof(createError) !== "string"){
+            setSelectedCountries([])
+            setActivity({name: "", difficulty: "", duration: "", season: ""})
+        }
+    }, [createError])
 
     const addCountries = (event) => {
         event.preventDefault()
@@ -63,9 +71,9 @@ const ActivityForm = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault()
-        dispatch(addActivity(activity))
-        setSelectedCountries([])
-        setActivity({name: "", difficulty: "", duration: "", season: ""})
+        dispatch(addActivity(activity)).then((error) => {
+            setCreateError(error)
+        })
     }
 
     return (
@@ -78,9 +86,9 @@ const ActivityForm = () => {
 
             {difficulties.map((difficulty) => {
                 return(
-                    <div>
-                        <label key={difficulty.words} htmlFor="difficulty">{difficulty.words}</label>
-                        <input key={difficulty.number /2 * 2} type="radio" name="difficulty" value={difficulty.number} onChange={handleInput}></input>
+                    <div key={difficulty.words}>
+                        <label htmlFor={difficulty.number}>{difficulty.words}</label>
+                        <input key={difficulty.number /2 * 2} type="radio" name="difficulty" id={difficulty.number} value={difficulty.number} checked={activity.difficulty == difficulty.number} onChange={handleInput}></input>
                     </div>
                 )
             })}
@@ -93,7 +101,7 @@ const ActivityForm = () => {
 
             <hr style={{ borderStyle: "none"}} />
 
-            <Select name="season" options={seasons} first="Choose a season" onChange={handleInput}/>
+            <Select name="season" selected={activity.season} options={seasons} first="Choose a season" onChange={handleInput}/>
             {errors.season && <p>{errors.season}</p>}
 
             <hr style={{ borderStyle: "none"}} />

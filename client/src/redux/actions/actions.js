@@ -1,4 +1,4 @@
-import { FILTER_BY_NAMES, GET_ALL_COUNTRIES, ORDER_COUNTRIES, GET_DATA, FILTER, GET_DETAIL, ADD_ACTIVITY, SET_FILTERS, SET_CURRENT_ACTIVITY, SET_ORDER} from "./action-types"
+import { FILTER_BY_NAMES, GET_ALL_COUNTRIES, ORDER_COUNTRIES, GET_DATA, FILTER, GET_DETAIL, ADD_ACTIVITY, SET_FILTERS, SET_CURRENT_ACTIVITY, SET_ORDER, CLEAN_DETAIL} from "./action-types"
 import axios from "axios"
 const URL_BASE = "http://localhost:3001"
 
@@ -48,12 +48,12 @@ export const getData = () => {
     }
 }
 
-export const orderCountries = (parameter) => {
-    return {type: ORDER_COUNTRIES, payload: parameter}
+export const orderCountries = () => {
+    return {type: ORDER_COUNTRIES}
 }
 
-export const filterCountries = (filters) => {
-    return {type: FILTER, payload: filters}
+export const filterCountries = () => {
+    return {type: FILTER}
 }
 
 export const getDetail = (id) => {
@@ -80,8 +80,9 @@ export const addActivity = (activity) => {
                 type: ADD_ACTIVITY,
                 payload: data
             })
+
         } catch(error) {
-            throw Error(error.message)
+            return error.response.data.message
         }
     }
 }
@@ -96,4 +97,8 @@ export const setCurrentActivity = (activity) => {
 
 export const setOrder = (order) => {
     return {type: SET_ORDER, payload: order}
+}
+
+export const cleanDetail = () => {
+    return {type: CLEAN_DETAIL}
 }

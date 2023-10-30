@@ -1,19 +1,21 @@
-export const orderSelectedCountries = (state, payload) => {
-    const parameter = payload.parameter
+
+
+export const orderSelectedCountries = (countries, order) => {
+    const parameter = order.parameter
     if(!parameter || parameter == "All"){
-        return state.filteredCountries
+        return countries
     }
-    if(!Array.isArray(state.filteredCountries)){
-        return state.filteredCountries
+    if(!Array.isArray(countries)){
+        return countries
     }
-    const orderedCountries = payload.ascendant ?
-    state.filteredCountries.sort((a, b) => {
+    const orderedCountries = order.ascendant ?
+    countries.sort((a, b) => {
         if(typeof(a[parameter])  == "string"){
             return a[parameter].localeCompare(b[parameter])
         }
         return a[parameter] - b[parameter]
     }) : 
-    state.filteredCountries.sort((a, b) => {
+    countries.sort((a, b) => {
         if(typeof(a[parameter])  == "string"){
             return b[parameter].localeCompare(a[parameter])
         }
@@ -37,5 +39,6 @@ export const filterCountries = (countries, filters) => {
     if(filteredCountries.length == 0){
         return "Country not found, please try again"
     }
+    
     return filteredCountries
 }

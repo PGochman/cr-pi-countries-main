@@ -1,4 +1,4 @@
-import {FILTER_BY_NAMES, GET_ALL_COUNTRIES, ORDER_COUNTRIES, GET_DATA, FILTER, GET_DETAIL, ADD_ACTIVITY, SET_FILTERS, SET_CURRENT_ACTIVITY, SET_ORDER} from "../actions/action-types"
+import {FILTER_BY_NAMES, GET_ALL_COUNTRIES, ORDER_COUNTRIES, GET_DATA, FILTER, GET_DETAIL, ADD_ACTIVITY, SET_FILTERS, SET_CURRENT_ACTIVITY, SET_ORDER, CLEAN_DETAIL} from "../actions/action-types"
 import { orderSelectedCountries, filterCountries} from "../utils/utils"
 
 const initialState = {
@@ -22,13 +22,13 @@ const reducer = (state = initialState, action) => {
             }
         case FILTER_BY_NAMES:
             const countries = filterCountries(action.payload.data, action.payload.filters) 
+            const orderNameCountries = orderSelectedCountries(countries, state.order)
             return {
                 ...state,
-                selectedCountries: action.payload.data,
-                filteredCountries: countries
+                filteredCountries: orderNameCountries
             }
         case ORDER_COUNTRIES:
-            const orderedCountries = orderSelectedCountries(state, action.payload)
+            const orderedCountries = orderSelectedCountries(state.filteredCountries, state.order)
             return {
                 ...state,
                 filteredCountries: orderedCountries,
@@ -41,9 +41,10 @@ const reducer = (state = initialState, action) => {
             }
         case FILTER:
             const filteredCountries = filterCountries(state.allCountries, state.filters)
+            const orderFilteredCountries = orderSelectedCountries(filteredCountries, state.order)
             return {
                 ...state,
-                filteredCountries: filteredCountries
+                filteredCountries: orderFilteredCountries
             }
         case GET_DETAIL:
             return {
@@ -69,6 +70,11 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 order: action.payload
+            }
+        case CLEAN_DETAIL:
+            return{
+                ...state,
+                countryDetail: {}
             }
         default:
             return {...state}

@@ -31,7 +31,7 @@ const Home = () => {
     }, [activities])
 
     useEffect(() => {
-        dispatch(orderCountries(order))
+        dispatch(orderCountries())
     }, [order])
 
     useEffect(() => {
@@ -82,7 +82,7 @@ const Home = () => {
         <FunctionButton onClick={eraseFilters} name="Erase filters"/>
         <Select name="order" selected={order.parameter} options={["name", "population"]} first={"Parameter"} onChange={handleOrder} />
         {order.parameter && <FunctionButton name="change order" onClick={changeOrder}></FunctionButton>}
-        <Cards order={order} filters={filters}/>
+        <Cards/>
       </div>
     );
 }

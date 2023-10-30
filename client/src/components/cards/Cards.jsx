@@ -2,15 +2,12 @@ import { useEffect, useState } from "react"
 import Card from "../card/Card"
 import { useSelector } from "react-redux"
 import FunctionButton from "../buttons/FunctionButton"
-import { useDispatch } from "react-redux"
-import { orderCountries, filterCountries } from "../../redux/actions/actions"
 
 const COUNTRIES_IN_PAGE = 10
 
-const Cards = ({order, filters}) => {
+const Cards = () => {
     const [pageNumber, setPageNumber] = useState(0)
     const {filteredCountries} = useSelector((state) => state)
-    const dispatch = useDispatch()
 
     const LAST_PAGE = Math.ceil(filteredCountries.length/COUNTRIES_IN_PAGE) - 1
     const pageCountries = filteredCountries.slice(pageNumber * COUNTRIES_IN_PAGE, (pageNumber + 1) * COUNTRIES_IN_PAGE)

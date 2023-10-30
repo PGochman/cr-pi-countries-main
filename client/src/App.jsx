@@ -26,7 +26,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Landing/>}/>
         <Route path="home" element={<Home/>}/>
-        <Route path="countries/:id" element={<Detail/>}/>
+        <Route path="countries/:countryId" element={<Detail/>}/>
         <Route path="create" element={<CreateActivity/>}/>
       </Routes>
     </div>
