@@ -40,6 +40,10 @@ const createDatabase = async() => {
             const subregion = country.subregion || null
             const area = country.area || null
             const population = country.population
+
+            if(!id || !name || !flag || !continent || !capital || population === null){
+                throw Error("Missing properties")
+            }
             
             await Country.findOrCreate({where: {id, name, flag, continent, capital, subregion, area, population}})
         })

@@ -18,6 +18,10 @@ const getCountryById = async (req, res) => {
     try {
         const foundCountry = await(findCountry(idPais))
 
+        if(!foundCountry){
+            return res.status(500).json("Country not found, please try again")
+        }
+
         return res.status(200).json(foundCountry)
     } catch(error) {
         return res.status(500).json({error: error.message})
@@ -30,8 +34,8 @@ const getCountryByName = async (req, res) => {
     try {
         const foundCountry = await findCountry(name)
 
-        if(foundCountry == null){
-            return res.status(200).json("Country not found, please try again")
+        if(!foundCountry){
+            return res.status(500).json("Country not found, please try again")
         }
 
         return res.status(200).json(foundCountry)
