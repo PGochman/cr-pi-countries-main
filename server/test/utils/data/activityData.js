@@ -23,7 +23,7 @@ const activity3 = {
 }
 
 const activity4 = {
-    name: "walking",
+    name: "mvsioap",
     difficulty: 3,
     season: "Winter",
     countries: ["bra"],

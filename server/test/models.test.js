@@ -140,6 +140,14 @@ describe("MODEL TEST", () => {
             expect(countries).toEqual(activity3.countries)
         })
 
+        it("should throw an error if there are no activities with that name", async() => {
+            await getCountriesByActivityName("naisa").then(() => {
+                throw Error("Promise should be rejected")
+            }).catch((error) => {
+                expect(error.message).toBe("There are no activities with that name")
+            })
+        })
+
         it("should return corresponding activities when sending country id", async() => {
             const activities = await getActivitiesByCountryId("arg")
                 for(let act of activities){
@@ -148,6 +156,14 @@ describe("MODEL TEST", () => {
                         expect(activity3[prop]).toBe(act[prop])
                     }
                 }
+        })
+
+        it("should throw an error if there are no countries with that id", async() => {
+            await getActivitiesByCountryId("naisa").then(() => {
+                throw Error("Promise should be rejected")
+            }).catch((error) => {
+                expect(error.message).toBe("There are no countries with that id")
+            })
         })
     })
 })
