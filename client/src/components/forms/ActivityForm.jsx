@@ -4,6 +4,7 @@ import FunctionButton from "../buttons/FunctionButton"
 import { addActivity, getData } from "../../redux/actions/actions"
 import Select from "../select/Select"
 import validation from "./validation"
+import style from "./form.module.css"
 
 const seasons = ["Summer", "Winter", "Fall", "Spring"]
 const difficulties = [
@@ -25,6 +26,7 @@ const ActivityForm = () => {
     const [allowed, setAllowed] = useState(true)
     const [errors, setErrors] = useState({})
     const [createError, setCreateError] = useState("")
+    const [submited, setSubmited] = useState(false)
 
     useEffect(() => {
         setActivity({
@@ -71,19 +73,40 @@ const ActivityForm = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault()
+        setSubmited(true)
         dispatch(addActivity(activity)).then((error) => {
             setCreateError(error)
         })
     }
 
+    const handleGoBack = () =>{
+        setSubmited(false)
+    }  
+
     return (
-        <form onSubmit={handleSubmit}>
+        submited ? (
+            <div>
+                {typeof(createError) == "string" ? (
+                    <div className={style.submited}>
+                        <p>{createError}</p>
+                        <FunctionButton onClick={handleGoBack} name="Try again" />
+                    </div>
+                ) : (
+                    <div className={style.submited}>
+                        <p>{createError.payload}</p>
+                        <FunctionButton onClick={handleGoBack} name="Create a new one" />
+                    </div>
+                )}
+            </div>
+        ) : (
+            <form className={style.container} onSubmit={handleSubmit}>
             <label htmlFor="name">Activity name:</label>
-            <input name="name" type="text" value={activity.name} onChange={handleInput}></input>
-            {errors.name && <p>{errors.name}</p>}
+            <input autoComplete="off" name="name" type="text" value={activity.name} onChange={handleInput}></input>
+            {errors.name && <p className={style.error}>{errors.name}</p>}
 
             <hr style={{ borderStyle: "none"}} />
 
+            <p>Difficulty: </p>
             {difficulties.map((difficulty) => {
                 return(
                     <div key={difficulty.words}>
@@ -92,7 +115,7 @@ const ActivityForm = () => {
                     </div>
                 )
             })}
-            {errors.difficulty && <p>{errors.difficulty}</p>}
+            {errors.difficulty && <p className={style.error}>{errors.difficulty}</p>}
 
             <hr style={{ borderStyle: "none"}} />
 
@@ -102,7 +125,7 @@ const ActivityForm = () => {
             <hr style={{ borderStyle: "none"}} />
 
             <Select name="season" selected={activity.season} options={seasons} first="Choose a season" onChange={handleInput}/>
-            {errors.season && <p>{errors.season}</p>}
+            {errors.season && <p className={style.error}>{errors.season}</p>}
 
             <hr style={{ borderStyle: "none"}} />
 
@@ -114,12 +137,15 @@ const ActivityForm = () => {
                 })}
             </datalist>
             <FunctionButton disabled={allowed} onClick={addCountries} name="Add"/>
-            {errors.countries && <p>{errors.countries}</p>}
+            {errors.countries && <p className={style.error}>{errors.countries}</p>}
 
             <hr style={{ borderStyle: "none"}} />
 
-            <button type="submit" disabled={errors.name || errors.difficulty || errors.season || errors.countries}>Create activity!</button>
+            <button className={style.button} type="submit" disabled={errors.name || errors.difficulty || errors.season || errors.countries}>Create activity!</button>
         </form>
+            
+        )
+        
     )
 }
 

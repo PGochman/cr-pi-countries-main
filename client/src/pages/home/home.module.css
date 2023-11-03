@@ -1,0 +1,58 @@
+.homeContainer{
+    display: grid;
+    grid-template-columns: 20% 80%;
+    grid-template-rows: 10% 90%;
+    grid-template-areas: "searchbar searchbar"
+                         "filters cards";
+    height: 90vh;
+}
+
+.filterContainer{
+    display: grid;
+    grid-template-rows: 50% 50%;
+    grid-template-columns: 100%;
+    grid-template-areas: "filters"
+                         "orders";
+    padding: 10px;
+    align-items: center;
+}
+
+.searchBarContainer{
+    padding: 10px;
+    grid-area: searchbar;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.cardsContainer{
+    grid-area: cards;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.filter{
+    display: flex;
+    padding: 10px;
+    flex-direction: column;
+    align-items: center;
+    grid-area: filters;
+}
+
+.order{
+    grid-area: orders;
+    display: flex;
+    padding: 10px;
+    flex-direction: column;
+    align-items: center;
+}
+
+.filter select{
+    background-color: #48CAE4;
+}
+
+.order select{
+    background-color: #48CAE4;
+}

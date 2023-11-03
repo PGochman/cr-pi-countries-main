@@ -5,9 +5,9 @@ import './App.css'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import Landing from './pages/landing/landing'
 import Home from "./pages/home/Home"
-import Detail from "./pages/detail/Detail"
 import Nav from "./components/nav/Nav"
 import CreateActivity from "./pages/createActivity/CreateActivity"
+import Detail from "./pages/detail/detail"
 
 function App() {
 

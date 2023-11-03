@@ -1,15 +1,17 @@
-import {FILTER_BY_NAMES, GET_ALL_COUNTRIES, ORDER_COUNTRIES, GET_DATA, FILTER, GET_DETAIL, ADD_ACTIVITY, SET_FILTERS, SET_CURRENT_ACTIVITY, SET_ORDER, CLEAN_DETAIL} from "../actions/action-types"
+import {FILTER_BY_NAMES, GET_ALL_COUNTRIES, ORDER_COUNTRIES, GET_DATA, FILTER, GET_DETAIL, ADD_ACTIVITY, SET_FILTERS, SET_CURRENT_ACTIVITY, SET_ORDER, CLEAN_DETAIL, SET_CURRENT_NAME} from "../actions/action-types"
 import { orderSelectedCountries, filterCountries} from "../utils/utils"
 
 const initialState = {
     allCountries: [],
     filteredCountries: [],
+    nameFilteredCountries: [],
     activities: [],
     continents: {},
     countryDetail: {},
     filters: {},
     currentActivity: "",
-    order: {}
+    order: {},
+    currentName: ""
 }
 
 const reducer = (state = initialState, action) => {
@@ -17,7 +19,7 @@ const reducer = (state = initialState, action) => {
         case GET_ALL_COUNTRIES:
             return {
                 ...state,
-                selectedCountries: action.payload,
+                filteredCountries: action.payload,
                 allCountries: action.payload,
             }
         case FILTER_BY_NAMES:
@@ -25,7 +27,8 @@ const reducer = (state = initialState, action) => {
             const orderNameCountries = orderSelectedCountries(countries, state.order)
             return {
                 ...state,
-                filteredCountries: orderNameCountries
+                filteredCountries: orderNameCountries,
+                nameFilteredCountries: action.payload.data
             }
         case ORDER_COUNTRIES:
             const orderedCountries = orderSelectedCountries(state.filteredCountries, state.order)
@@ -40,7 +43,8 @@ const reducer = (state = initialState, action) => {
                 activities: action.payload.activities
             }
         case FILTER:
-            const filteredCountries = filterCountries(state.allCountries, state.filters)
+            const countriesToUse = state.nameFilteredCountries.length > 0 ? state.nameFilteredCountries : state.allCountries
+            const filteredCountries = filterCountries(countriesToUse, state.filters)
             const orderFilteredCountries = orderSelectedCountries(filteredCountries, state.order)
             return {
                 ...state,
@@ -76,6 +80,11 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 countryDetail: {}
             }
+        case SET_CURRENT_NAME:
+            return({
+                ...state,
+                currentName: action.payload
+            })
         default:
             return {...state}
     }

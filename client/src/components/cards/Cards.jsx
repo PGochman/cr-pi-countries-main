@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import Card from "../card/Card"
 import { useSelector } from "react-redux"
 import FunctionButton from "../buttons/FunctionButton"
+import style from "./cards.module.css"
 
 const COUNTRIES_IN_PAGE = 10
 
@@ -33,22 +34,43 @@ const Cards = () => {
     }
 
     return (
-        <div>
-            <FunctionButton name="First page" onClick={firstPage} disabled={pageNumber == 0} />
-            <FunctionButton name="Prev" onClick={prevPage} disabled={pageNumber == 0} />
-            <p>{pageNumber + 1}</p>
-            <FunctionButton name="Next" onClick={nextPage} disabled={filteredCountries.length <= (pageNumber + 1) * COUNTRIES_IN_PAGE} />
-            <FunctionButton name="Last Page" onClick={lastPage} disabled={pageNumber == LAST_PAGE || filteredCountries.length <= COUNTRIES_IN_PAGE} />
-            {Array.isArray(pageCountries) ? pageCountries?.map(({flag, name, continent, id}) => {
-                return <Card
-                key={id}
-                id={id}
-                flag={flag}
-                name={name}
-                continent={continent} />
-            }) : 
-            <h1>{filteredCountries}</h1>
-            }
+        <div className={style.container}>
+            <div className={style.pageButtons}> 
+                {Array.isArray(filteredCountries) &&
+                <div>
+                <FunctionButton name="First page" onClick={firstPage} disabled={pageNumber == 0} />
+                <FunctionButton name="Prev" onClick={prevPage} disabled={pageNumber == 0} />
+                <span>{pageNumber + 1}</span>
+                <FunctionButton name="Next" onClick={nextPage} disabled={filteredCountries.length <= (pageNumber + 1) * COUNTRIES_IN_PAGE} />
+                <FunctionButton name="Last Page" onClick={lastPage} disabled={pageNumber == LAST_PAGE || filteredCountries.length <= COUNTRIES_IN_PAGE} />
+                </div>
+                }
+            </div>
+            <div className={style.cardContainer}>
+                {Array.isArray(pageCountries) ? pageCountries?.map(({flag, name, continent, id}) => {
+                    return (
+                        <Card
+                        key={id}
+                        id={id}
+                        flag={flag}
+                        name={name}
+                        continent={continent} />
+                    )
+                }) : 
+                <h1>{filteredCountries}</h1>
+                }
+            </div>
+            <div className={style.pageButtons}> 
+                {Array.isArray(filteredCountries) &&
+                <div>
+                <FunctionButton name="First page" onClick={firstPage} disabled={pageNumber == 0} />
+                <FunctionButton name="Prev" onClick={prevPage} disabled={pageNumber == 0} />
+                <span>{pageNumber + 1}</span>
+                <FunctionButton name="Next" onClick={nextPage} disabled={filteredCountries.length <= (pageNumber + 1) * COUNTRIES_IN_PAGE} />
+                <FunctionButton name="Last Page" onClick={lastPage} disabled={pageNumber == LAST_PAGE || filteredCountries.length <= COUNTRIES_IN_PAGE} />
+                </div>
+                }
+            </div>
         </div>
     )
 }

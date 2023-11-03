@@ -5,6 +5,7 @@ import Select from "../../components/select/Select"
 import { useEffect, useState } from "react"
 import { orderCountries, filterCountries, getData, setFilters, setCurrentActivity, setOrder } from "../../redux/actions/actions"
 import FunctionButton from "../../components/buttons/FunctionButton"
+import style from "./home.module.css"
 
 const Home = () => {
     const [allActivitiesNames, setAllActivitiesNames] = useState([]);
@@ -74,15 +75,30 @@ const Home = () => {
     }
     
     return (
-      <div>
-        <SearchBar filters={filters}/>
-        <Select selected={currentActivity} name="activity" onChange={handleActivityChange} options={allActivitiesNames}/>
-        <Select selected={filters.continent} name="continent" options={Object.keys(continents)} onChange={handleContinentChange}/>
-        {showSubContinents && <Select selected={filters.subContinents} name="SubContinents" options={subContinents} onChange={handleSubContinent}/>}
-        <FunctionButton onClick={eraseFilters} name="Erase filters"/>
-        <Select name="order" selected={order.parameter} options={["name", "population"]} first={"Parameter"} onChange={handleOrder} />
-        {order.parameter && <FunctionButton name="change order" onClick={changeOrder}></FunctionButton>}
-        <Cards/>
+      <div className={style.homeContainer}>
+        <div className={style.searchBarContainer}>
+            <p>Search by name</p>
+            <SearchBar filters={filters}/>
+        </div>
+        <div className={style.filterContainer}>
+            <div className={style.filter}>
+                <p>Filter by activity</p>
+                <Select selected={currentActivity} name="activity" onChange={handleActivityChange} options={allActivitiesNames}/>
+                <p>Filter by continent</p>
+                <Select selected={filters.continent} name="continent" options={Object.keys(continents)} onChange={handleContinentChange}/>
+                {showSubContinents && <p>Subregion</p>}
+                {showSubContinents && <Select selected={filters.subregion} name="SubContinents" options={subContinents} onChange={handleSubContinent}/>}
+                <FunctionButton onClick={eraseFilters} name="Erase filters"/>
+            </div>
+            <div className={style.order}>
+                <p>Sort by:</p>
+                <Select name="order" selected={order.parameter} options={["name", "population"]} first={"Parameter"} onChange={handleOrder} />
+                {order.parameter && <FunctionButton name="change order" onClick={changeOrder}></FunctionButton>}
+            </div>
+        </div>
+        <div className={style.cardsContainer}>
+            <Cards/>
+        </div>
       </div>
     );
 }

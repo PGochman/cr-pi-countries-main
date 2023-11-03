@@ -1,0 +1,20 @@
+.container{
+    display: flex;
+    flex-direction: column;
+}
+
+.cardContainer{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    height: 500px;
+}
+
+.pageButtons{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 52px;
+}
