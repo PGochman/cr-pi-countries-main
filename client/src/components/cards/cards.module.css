@@ -9,7 +9,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    height: 500px;
+    height: 508px;
 }
 
 .pageButtons{
@@ -17,4 +17,5 @@
     align-items: center;
     justify-content: center;
     height: 52px;
+    background-color: transparent;
 }
