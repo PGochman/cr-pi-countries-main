@@ -31,33 +31,43 @@ const createDatabase = async() => {
     try{
         const data = (await axios(URL_COUNTRIES)).data
 
-        data.map(async(country) => {
-            const id = country.cca3
-            const name = country.name.common
-            const flag = country.flags.png
-            const continent = country.region
-            const capital = country.capital ? country.capital[0] : "does not have a capital" // hay un par que no tienen capital, y no puede quedar nulo 
-            const subregion = country.subregion || null
-            const area = country.area || null
-            const population = country.population
+        const countries = await Country.findAll()
 
-            if(!id || !name || !flag || !continent || !capital || population === null){
-                throw Error("Missing properties")
-            }
-            
-            await Country.findOrCreate({where: {id, name, flag, continent, capital, subregion, area, population}})
-        })
+        if(countries.length == 0){
+            data.map(async(country) => {
+                const id = country.cca3
+                const name = country.name.common
+                const flag = country.flags.png
+                const continent = country.region
+                const capital = country.capital ? country.capital[0] : "does not have a capital" // hay un par que no tienen capital, y no puede quedar nulo 
+                const subregion = country.subregion || null
+                const area = country.area || null
+                const population = country.population
+    
+                if(!id || !name || !flag || !continent || !capital || population === null){
+                    throw Error("Missing properties")
+                }
+                
+                await Country.findOrCreate({where: {id, name, flag, continent, capital, subregion, area, population}})
+            })
+        }
+
     } catch(error) {
         throw Error(error.message)
     }
 
-    try {
-        activities.map(async(country) => {
-           await axios.post(URL_ACTIVITIES, country) 
-        })
-    } catch (error){
-        throw Error(error.message)
+    const allActivities = Activity.findAll()
+
+    if(allActivities.length == 0){
+        try {
+            activities.map(async(country) => {
+               await axios.post(URL_ACTIVITIES, country) 
+            })
+        } catch (error){
+            throw Error(error.message)
+        }
     }
+
 
     
 }
