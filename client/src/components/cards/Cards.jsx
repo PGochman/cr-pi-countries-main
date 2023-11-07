@@ -1,36 +1,49 @@
 import { useEffect, useState } from "react"
 import Card from "../card/Card"
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
 import FunctionButton from "../buttons/FunctionButton"
 import style from "./cards.module.css"
+import { setPage } from "../../redux/actions/actions"
 
 const COUNTRIES_IN_PAGE = 10
 
 const Cards = () => {
     const [pageNumber, setPageNumber] = useState(0)
-    const {filteredCountries} = useSelector((state) => state)
+    const {filteredCountries, currentPage} = useSelector((state) => state)
+    const dispatch = useDispatch()
+    
 
     const LAST_PAGE = Math.ceil(filteredCountries.length/COUNTRIES_IN_PAGE) - 1
     const pageCountries = filteredCountries.slice(pageNumber * COUNTRIES_IN_PAGE, (pageNumber + 1) * COUNTRIES_IN_PAGE)
 
     useEffect(() => {
-        setPageNumber(0)
+        if(!pageNumber)
+        {
+            setPageNumber(currentPage)
+        } else{
+            dispatch(setPage(0))
+            setPageNumber(0)
+        }
     }, [filteredCountries])
 
+    useEffect(() => {
+        setPageNumber(currentPage)
+    }, [currentPage])
+
     const nextPage = () => {
-        setPageNumber(pageNumber + 1)
+        dispatch(setPage(currentPage + 1))
     }
     
     const prevPage = () => {
-        setPageNumber(pageNumber - 1)
+        dispatch(setPage(currentPage - 1))
     }
     
     const firstPage = () => {
-        setPageNumber(0)
+        dispatch(setPage(0))
     }
     
     const lastPage = () => {
-        setPageNumber(LAST_PAGE)
+        dispatch(setPage(LAST_PAGE))
     }
 
     return (

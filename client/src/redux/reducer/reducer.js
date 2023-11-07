@@ -1,4 +1,4 @@
-import {FILTER_BY_NAMES, GET_ALL_COUNTRIES, ORDER_COUNTRIES, GET_DATA, FILTER, GET_DETAIL, ADD_ACTIVITY, SET_FILTERS, SET_CURRENT_ACTIVITY, SET_ORDER, CLEAN_DETAIL, SET_CURRENT_NAME} from "../actions/action-types"
+import {FILTER_BY_NAMES, GET_ALL_COUNTRIES, ORDER_COUNTRIES, GET_DATA, FILTER, GET_DETAIL, ADD_ACTIVITY, SET_FILTERS, SET_CURRENT_ACTIVITY, SET_ORDER, CLEAN_DETAIL, SET_CURRENT_NAME, SET_CURRENT_PAGE} from "../actions/action-types"
 import { orderSelectedCountries, filterCountries} from "../utils/utils"
 
 const initialState = {
@@ -11,7 +11,8 @@ const initialState = {
     filters: {},
     currentActivity: "",
     order: {},
-    currentName: ""
+    currentName: "",
+    currentPage: 0
 }
 
 const reducer = (state = initialState, action) => {
@@ -85,6 +86,11 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 currentName: action.payload
             })
+        case SET_CURRENT_PAGE:
+            return{
+                ...state,
+                currentPage: action.payload
+            }
         default:
             return {...state}
     }

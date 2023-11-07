@@ -1,4 +1,4 @@
-import { FILTER_BY_NAMES, GET_ALL_COUNTRIES, ORDER_COUNTRIES, GET_DATA, FILTER, GET_DETAIL, ADD_ACTIVITY, SET_FILTERS, SET_CURRENT_ACTIVITY, SET_ORDER, CLEAN_DETAIL, SET_CURRENT_NAME} from "./action-types"
+import { FILTER_BY_NAMES, GET_ALL_COUNTRIES, ORDER_COUNTRIES, GET_DATA, FILTER, GET_DETAIL, ADD_ACTIVITY, SET_FILTERS, SET_CURRENT_ACTIVITY, SET_ORDER, CLEAN_DETAIL, SET_CURRENT_NAME, SET_CURRENT_PAGE} from "./action-types"
 import axios from "axios"
 const URL_BASE = "http://localhost:3001"
 
@@ -111,4 +111,8 @@ export const cleanDetail = () => {
 
 export const setCurrentName = (name) => {
     return {type: SET_CURRENT_NAME, payload: name}
+}
+
+export const setPage = (page) => {
+    return {type: SET_CURRENT_PAGE, payload: page}
 }
