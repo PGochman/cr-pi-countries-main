@@ -9,21 +9,21 @@ const activities = [
         difficulty: 3,
         duration: 2.5,
         season: "Summer",
-        countries: ["PAN", "TKM", "ARG"]
+        countries: ["PAN", "TKM", "ARG", "SMR", "STP", "UGA", "BTN", "MTQ", "TON", "BEL", "MWI", "SVN"]
     },
     {
         name: "Bike ridding",
         difficulty: 4,
         duration: 5,
         season: "Winter",
-        countries: ["PAN", "TKM", "ARG", "KEN"]
+        countries: ["PAN", "TKM", "ZMB", "GGY", "LUX", "JAM", "AGO", "WSM", "YEM", "IRQ", "MAR", "MRT"]
     },
     {
         name: "Bird sighting",
         difficulty: 3,
         duration: 2.5,
         season: "Summer",
-        countries: ["TKM", "KEN"]
+        countries: ["MYS", "KEN", "BOL", "OMN", "CYP", "TGO", "UGA", "SWE", "CHE", "VUT", "LIE", "ABW"]
     },
 ]
 
