@@ -120,7 +120,7 @@ const ActivityForm = () => {
             <hr style={{ borderStyle: "none"}} />
 
             <label htmlFor="duration">Duration(hours)</label>
-            <input name="duration" type="number" value={activity.duration} onChange={handleInput} step={0.5} min={0.5} ></input>
+            <input name="duration" type="number" value={activity.duration} onChange={handleInput} step={0.5} min={0.5} max={10} ></input>
 
             <hr style={{ borderStyle: "none"}} />
 

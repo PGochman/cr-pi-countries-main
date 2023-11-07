@@ -1,3 +1,22 @@
 .input{
     background-color: #48CAE4;
 }
+
+.button{
+    background-color: inherit;
+    border: 0;
+    padding: 0;
+    height: 18.4px;
+}
+
+.button:hover{
+    cursor: pointer;
+}
+
+.button img{
+    height: 18.4px;
+}
+
+.div{
+    display: flex;
+}
