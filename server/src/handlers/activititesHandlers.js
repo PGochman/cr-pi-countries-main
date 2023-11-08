@@ -1,4 +1,4 @@
-const {createActivity, getActivities} = require("../controllers/activitiesControllers")
+const {createActivity, getActivities, updateActivityInfo, destroyActivity} = require("../controllers/activitiesControllers")
 
 const postActivity = async (req, res) => {
     const {name, difficulty, duration, season, countries} = req.body
@@ -22,7 +22,37 @@ const getActivity = async (req, res) => {
     }
 }
 
+const updateActivity = async (req, res) => {
+    const activity = req.body
+
+    try{
+        const response = await updateActivityInfo(activity)
+
+        return res.status(200).send(response)
+    }catch(error){
+        return res.status(500).send(error.message)
+    }
+}
+
+const deleteActivity = async (req, res) => {
+    const {name} = req.body
+
+    console.log(req.body)
+
+    try{
+        const response = await destroyActivity(name)
+
+        console.log(response)
+
+        return res.status(200).send(response)
+    }catch (error){
+        return res.status(500).send(error.message)
+    }
+}
+
 module.exports = {
     postActivity,
-    getActivity
+    getActivity,
+    updateActivity,
+    deleteActivity
 }

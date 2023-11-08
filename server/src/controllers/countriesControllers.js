@@ -35,8 +35,10 @@ const getAllContinents = async() => {
     return continents
 }
 
+
+
 module.exports = {
     getAllCountriesController,
     findCountry,
-    getAllContinents
+    getAllContinents,
 }

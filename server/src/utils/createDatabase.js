@@ -56,7 +56,7 @@ const createDatabase = async() => {
         throw Error(error.message)
     }
 
-    const allActivities = Activity.findAll()
+    const allActivities = await Activity.findAll()
 
     if(allActivities.length == 0){
         try {

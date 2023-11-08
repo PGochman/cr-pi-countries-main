@@ -35,8 +35,38 @@ const getSingleActivity = async (id) => {
     return activity
 }
 
+const updateActivityInfo = async({name, difficulty, season, duration, countries}) => {
+
+    await Activity.update({difficulty, season, duration: duration || null}, {where: {name}})
+
+    const activity = await Activity.findOne({ where: { name } });
+
+    if (activity) {
+        const activityCountries = await activity.getCountries();
+
+        const activityCountryIds = activityCountries.map((country) => country.id);
+
+        const countriesToAdd = countries.filter((country) => !activityCountryIds.includes(country));
+        const countriesToRemove = activityCountryIds.filter(countryId => !countries.includes(countryId));
+
+        await activity.addCountries(countriesToAdd);
+        await activity.removeCountries(countriesToRemove);
+    }
+
+    return "Activity updated successfully"
+}
+
+const destroyActivity = async(name) => {
+    console.log(name)
+    await Activity.destroy({where: {name}})
+
+    return "Activity deleted with success"
+}
+
 module.exports = {
     createActivity,
     getActivities,
-    getSingleActivity
+    getSingleActivity,
+    updateActivityInfo,
+    destroyActivity
 }
