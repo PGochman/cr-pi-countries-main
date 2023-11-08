@@ -1,0 +1,29 @@
+.activities{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.activitiesContainer{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    margin: 10px;
+}
+
+.activity{
+    background-color: #48CAE4;
+    border: 2px solid black;
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    margin: 5px;
+    justify-content: space-evenly;
+}
+
+.p{
+    text-decoration: underline;
+    font-weight: bold;
+}

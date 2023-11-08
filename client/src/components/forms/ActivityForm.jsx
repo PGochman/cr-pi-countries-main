@@ -5,15 +5,7 @@ import { addActivity, getData } from "../../redux/actions/actions"
 import Select from "../select/Select"
 import validation from "./validation"
 import style from "./form.module.css"
-
-const seasons = ["Summer", "Winter", "Fall", "Spring"]
-const difficulties = [
-    {number: 1, words: "Very easy"},
-    {number: 2, words: "Easy"},
-    {number: 3, words: "Medium"},
-    {number: 4, words: "Hard"},
-    {number: 5, words: "Very hard"}
-]
+import {seasons, difficulties} from "../../data/data"
 
 const ActivityForm = () => {
 

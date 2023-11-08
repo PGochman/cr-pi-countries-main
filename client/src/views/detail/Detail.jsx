@@ -3,20 +3,12 @@ import { useDispatch, useSelector } from "react-redux"
 import { cleanDetail, getDetail } from "../../redux/actions/actions"
 import { useEffect, useState } from "react"
 import style from "./detail.module.css"
-
-const difficulties = {
-    1: "Very easy",
-    2: "Easy",
-    3: "Medium",
-    4: "Hard",
-    5: "Very hard"
-}
+import { difficulties} from "../../data/data"
 
 const Detail = () => {
     const {countryId} = useParams()
     const countryDetail = useSelector((state) => state.countryDetail)
     const [id, setId] = useState(countryId)
-    const [showActivities, setShowActivities] = useState(false)
 
     const dispatch = useDispatch()
 
@@ -31,10 +23,6 @@ const Detail = () => {
 
     const eraseDetail = () => {
         dispatch(cleanDetail())
-    }
-
-    const handleActivities = () => {
-        setShowActivities(!showActivities)
     }
 
     return (
@@ -66,7 +54,7 @@ const Detail = () => {
                                         {activity.duration &&
                                             <h3>Aproximate duration: {activity.duration} hours</h3>
                                         }
-                                        <h3>Difficulty: {difficulties[activity.difficulty]}</h3>
+                                        <h3>Difficulty: {difficulties[activity.difficulty].words}</h3>
                                     </div>
                                 ) 
                             })}

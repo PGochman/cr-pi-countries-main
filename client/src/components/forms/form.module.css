@@ -49,3 +49,20 @@
     padding: 25px;
     max-width: 600px;
 }
+
+.updateForm{
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.updateSuccess{
+    border: solid 5px #03045E;
+    background-color: #00B4D8;
+    border-radius: 50px;
+    display: flex;
+    height: 200px;
+    align-items: center;
+    text-align: center;
+    width: 500px;
+}

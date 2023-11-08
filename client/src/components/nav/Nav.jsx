@@ -10,6 +10,7 @@ const Nav = () => {
         <nav className={style.nav}>
             <LinkButton path="home" name="Home"></LinkButton>
             {pathname !== "/create" && <LinkButton path="create" name="Create activity"/>}
+            <LinkButton path="activities" name="Activities"/>
         </nav>
     )
 }
