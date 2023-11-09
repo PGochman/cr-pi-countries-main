@@ -35,3 +35,7 @@
     background-color: #0077B6;
     box-shadow: 0 0 10px 3px #03045E;
 }
+
+.description p{
+    background-color: transparent;
+}

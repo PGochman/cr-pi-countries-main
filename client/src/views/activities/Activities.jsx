@@ -18,7 +18,6 @@ const Activities = () => {
     }, [])
 
     const eliminateActivity = async(activity) => {
-        console.log(activity)
         await axios.delete("http://localhost:3001/activities", {
             data: activity
         })

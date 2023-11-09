@@ -91,7 +91,7 @@ const ActivityForm = () => {
                 )}
             </div>
         ) : (
-            <form className={style.container} onSubmit={handleSubmit}>
+        <form className={style.container} onSubmit={handleSubmit}>
             <label htmlFor="name">Activity name:</label>
             <input autoComplete="off" name="name" type="text" value={activity.name} onChange={handleInput}></input>
             {errors.name && <p className={style.error}>{errors.name}</p>}
