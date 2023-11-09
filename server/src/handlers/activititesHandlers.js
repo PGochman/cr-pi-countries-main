@@ -37,12 +37,8 @@ const updateActivity = async (req, res) => {
 const deleteActivity = async (req, res) => {
     const {name} = req.body
 
-    console.log(req.body)
-
     try{
         const response = await destroyActivity(name)
-
-        console.log(response)
 
         return res.status(200).send(response)
     }catch (error){

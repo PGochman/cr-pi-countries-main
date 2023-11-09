@@ -57,7 +57,6 @@ const updateActivityInfo = async({name, difficulty, season, duration, countries}
 }
 
 const destroyActivity = async(name) => {
-    console.log(name)
     await Activity.destroy({where: {name}})
 
     return "Activity deleted with success"

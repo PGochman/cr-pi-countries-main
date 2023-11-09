@@ -2,7 +2,7 @@ const {Country_Activity} = require("../db")
 const {jsonConvert} = require("./jsonConvert")
 
 const insertCountries = async(activity) => {
-    const countrysIds = await Country_Activity.findAll({where: {ActivityId: activity.id}}) // agarro las ids de las actividades del pais
+    const countrysIds = await Country_Activity.findAll({where: {ActivityId: activity.id}}) // agarro las ids de los paises de la actividad
 
     activity.countries = [] // creo la instancia para meter las actividades
 
