@@ -54,7 +54,7 @@ const Detail = () => {
                                         {activity.duration &&
                                             <h3>Aproximate duration: {activity.duration} hours</h3>
                                         }
-                                        <h3>Difficulty: {difficulties[activity.difficulty].words}</h3>
+                                        <h3>Difficulty: {difficulties[activity.difficulty - 1].words}</h3>
                                     </div>
                                 ) 
                             })}

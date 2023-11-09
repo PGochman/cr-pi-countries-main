@@ -32,7 +32,7 @@ const Activities = () => {
                     return (
                         <div key={activity.id} className={style.activity}>
                             <h1 key={activity.name}>{activity.name}</h1>
-                            <p key={activity.difficulty}>Difficulty: {difficulties[activity.difficulty].words}</p>
+                            <p key={activity.difficulty}>Difficulty: {difficulties[activity.difficulty - 1].words}</p>
                             {activity.duration && <p key={activity.duration * 100}>Durationn: {activity.duration} hours</p>}
                             <p key={activity.season}>Season: {activity.season}</p>
                             <p className={style.p}>Countries to do it:</p>
